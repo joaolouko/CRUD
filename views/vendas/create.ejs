@@ -1,41 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Registrar Venda</title>
-    <link rel="stylesheet" href="/path/to/your/css/style.css">
-</head>
-<body>
-    <h1>Registrar Venda</h1>
-
-    <form action="/vendas" method="POST">
-        <div class="form-group">
-            <label for="user_id">Escolha o Usuário:</label>
-            <select id="user_id" name="user_id" class="form-control" required>
-                <option value="">Selecione um usuário</option>
-                <% users.forEach(user => { %>
-                    <option value="<%= user.id %>"><%= user.username %></option>
-                <% }) %>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="produto_id">Escolha o Produto:</label>
-            <select id="produto_id" name="produto_id" class="form-control" required>
-                <option value="">Selecione um produto</option>
-                <% produtos.forEach(produto => { %>
-                    <option value="<%= produto.id %>"><%= produto.nome %> - <%= produto.preco %> R$</option>
-                <% }) %>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="quantidade">Quantidade:</label>
-            <input type="number" id="quantidade" name="quantidade" class="form-control" min="1" required>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Registrar Venda</button>
-    </form>
-
-    <script src="/path/to/your/js/script.js"></script>
-</body>
-</html>
+<h1>Cadastrar Nova Venda</h1>
+<form action="/vendas" method="POST">
+    <div class="form-group">
+        <label for="user_id">Usuário</label>
+        <select class="form-control" id="user_id" name="user_id" required>
+            <% users.forEach(user => { %>
+                <option value="<%= user.id %>"><%= user.username %></option>
+            <% }) %>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="produto_id">Produto</label>
+        <select class="form-control" id="produto_id" name="produto_id" required>
+            <% produtos.forEach(produto => { %>
+                <option value="<%= produto.id %>"><%= produto.nome %></option>
+            <% }) %>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+</form>

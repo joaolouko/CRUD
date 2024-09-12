@@ -1,41 +1,8 @@
 const Venda = require('../models/vendaModel');
-const User = require('../models/userModel'); // Para obter usuários
-const Produto = require('../models/produtoModel'); // Para obter produtos
+const Produto = require('../models/produtoModel');
+const User = require('../models/userModel');
 
 const vendaController = {
-    // Renderiza o formulário para criar uma nova venda
-    renderCreateForm: (req, res) => {
-        // Obtém todos os usuários e produtos para preencher os selects no formulário
-        User.getAll((err, users) => {
-            if (err) {
-                return res.status(500).json({ error: err });
-            }
-            Produto.getAll((err, produtos) => {
-                if (err) {
-                    return res.status(500).json({ error: err });
-                }
-                res.render('vendas/create', { users, produtos });
-            });
-        });
-    },
-
-    // Cria uma nova venda
-    createVenda: (req, res) => {
-        const newVenda = {
-            user_id: req.body.user_id,
-            produto_id: req.body.produto_id,
-            quantidade: req.body.quantidade,
-        };
-
-        Venda.create(newVenda, (err) => {
-            if (err) {
-                return res.status(500).json({ error: err });
-            }
-            res.redirect('/vendas');
-        });
-    },
-
-    // Obtém todos as vendas
     getAllVendas: (req, res) => {
         Venda.getAll((err, vendas) => {
             if (err) {
@@ -45,7 +12,34 @@ const vendaController = {
         });
     },
 
-    // Obtém uma venda específica pelo ID
+    renderCreateForm: (req, res) => {
+        Produto.getAll(null, (err, produtos) => {
+            if (err) {
+                return res.status(500).json({ error: err });
+            }
+            User.getAll((err, users) => {
+                if (err) {
+                    return res.status(500).json({ error: err });
+                }
+                res.render('vendas/create', { produtos, users });
+            });
+        });
+    },
+
+    createVenda: (req, res) => {
+        const newVenda = {
+            user_id: req.body.user_id,
+            produto_id: req.body.produto_id,
+        };
+
+        Venda.create(newVenda, (err, vendaId) => {
+            if (err) {
+                return res.status(500).json({ error: err });
+            }
+            res.redirect('/vendas');
+        });
+    },
+
     getVendaById: (req, res) => {
         const vendaId = req.params.id;
 
@@ -60,13 +54,35 @@ const vendaController = {
         });
     },
 
-    // Atualiza uma venda específica
+    renderEditForm: (req, res) => {
+        const vendaId = req.params.id;
+
+        Venda.findById(vendaId, (err, venda) => {
+            if (err) {
+                return res.status(500).json({ error: err });
+            }
+            if (!venda) {
+                return res.status(404).json({ message: 'Venda not found' });
+            }
+            Produto.getAll(null, (err, produtos) => {
+                if (err) {
+                    return res.status(500).json({ error: err });
+                }
+                User.getAll((err, users) => {
+                    if (err) {
+                        return res.status(500).json({ error: err });
+                    }
+                    res.render('vendas/edit', { venda, produtos, users });
+                });
+            });
+        });
+    },
+
     updateVenda: (req, res) => {
         const vendaId = req.params.id;
         const updatedVenda = {
             user_id: req.body.user_id,
             produto_id: req.body.produto_id,
-            quantidade: req.body.quantidade,
         };
 
         Venda.update(vendaId, updatedVenda, (err) => {
@@ -77,7 +93,6 @@ const vendaController = {
         });
     },
 
-    // Exclui uma venda específica
     deleteVenda: (req, res) => {
         const vendaId = req.params.id;
 
@@ -87,19 +102,7 @@ const vendaController = {
             }
             res.redirect('/vendas');
         });
-    },
-
-    // Pesquisa vendas com base em algum critério (opcional)
-    searchVendas: (req, res) => {
-        const search = req.query.search || '';
-
-        Venda.searchByCriteria(search, (err, vendas) => {
-            if (err) {
-                return res.status(500).json({ error: err });
-            }
-            res.json({ vendas });
-        });
-    },
+    }
 };
 
 module.exports = vendaController;
