@@ -1,3 +1,4 @@
+// controllers/vendaController.js
 const Venda = require('../models/vendaModel');
 const Produto = require('../models/produtoModel');
 const User = require('../models/userModel');
@@ -30,6 +31,8 @@ const vendaController = {
         const newVenda = {
             user_id: req.body.user_id,
             produto_id: req.body.produto_id,
+            quantidade: req.body.quantidade,  // Adicione a quantidade
+            data_compra: req.body.data_compra // Adicione a data da compra
         };
 
         Venda.create(newVenda, (err, vendaId) => {
@@ -83,6 +86,8 @@ const vendaController = {
         const updatedVenda = {
             user_id: req.body.user_id,
             produto_id: req.body.produto_id,
+            quantidade: req.body.quantidade, // Atualize a quantidade
+            data_compra: req.body.data_compra // Atualize a data da compra
         };
 
         Venda.update(vendaId, updatedVenda, (err) => {

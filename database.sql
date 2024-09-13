@@ -28,6 +28,8 @@ CREATE TABLE vendas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     produto_id INT NOT NULL,
+    quantidade INT NOT NULL,
+    data_compra DATETIME NOT NULL, 
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (produto_id) REFERENCES produtos(id)
 );

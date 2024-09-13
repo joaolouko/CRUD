@@ -1,28 +1,24 @@
-<h1>Listagem de Vendas</h1>
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Usuário</th>
-            <th>Produto</th>
-            <th>Ação</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% vendas.forEach(venda => { %>
-            <tr>
-                <td><%= venda.id %></td>
-                <td><%= venda.user ? venda.user.username : 'Desconhecido' %></td>
-                <td><%= venda.produto ? venda.produto.nome : 'Desconhecido' %></td>
-                <td>
-                    <a href="/vendas/<%= venda.id %>" class="btn btn-primary">Detalhes</a>
-                    <a href="/vendas/<%= venda.id %>/edit" class="btn btn-warning">Editar</a>
-                    <form action="/vendas/<%= venda.id %>?_method=DELETE" method="POST" style="display: inline;">
-                        <button type="submit" class="btn btn-danger">Excluir</button>
-                    </form>
-                </td>
-            </tr>
-        <% }) %>
-    </tbody>
-</table>
-<a href="/vendas/new" class="btn btn-primary">Nova Venda</a>
+<div class="jumbotron text-center">
+    <h1>Bem-vindo ao Sistema de Gerenciamento de Usuários</h1>
+    <p class="lead">Gerencie seus usuários e produtos sem esforço.</p>
+    <a href="/users" class="btn btn-custom">Gerenciar usuários</a>
+    <a href="/produtos" class="btn btn-custom ml-2">Gerenciar produtos</a>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="feature-card">
+            <h3>Gerenciamento de usuários</h3>
+            <p>Adicione, edite e exclua usuários facilmente com nossa interface intuitiva.</p>
+            <a href="/users" class="btn btn-primary">Ir para usuários</a>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="feature-card">
+            <h3>Gerenciamento de produtos</h3>
+            <p>Acompanhe seus produtos e seus detalhes perfeitamente.</p>
+            <a href="/produtos" class="btn btn-primary">Is para produtos</a>
+        </div>
+    </div>
+</div>
+</div>
